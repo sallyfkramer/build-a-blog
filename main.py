@@ -10,7 +10,7 @@ db = SQLAlchemy(app)
 
 blog=['test']
 
-class Post(db.Model):
+class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.String(2000))
@@ -20,18 +20,14 @@ class Post(db.Model):
         self.body = body
 
 
-def not_empty(x):
-    if len(x) == 0:
-        return False
-    else:
-        return True
-
 @app.route("/")
 def index():
+    #TODO build query for database
     return render_template('home.html', blog=blog)
 
 @app.route("/newpost")
 def newpost():
+    
     return render_template('new-post.html')
 
 @app.route("/newpost", methods=['POST'])
@@ -42,13 +38,17 @@ def validate_input():
     title_error = ''
     body_error = ''
     
-    if not not_empty(title):
+    if title.isspace():
         title_error = "Title cannot be blank."
     
-    if not not_empty(body):
+    if body.isspace():
         body_error = "Body cannot be blank."
 
     if not title_error and not body_error:
+        print("starting new blog with {0}, {1}".format(title, body))
+        new_blog = Blog(title, body)
+        db.session.add(new_blog)
+        db.session.commit()
         return render_template('post.html', title=title, body=body, title_error=title_error, body_error=body_error)
     else: 
         return render_template('new-post.html', title=title, body=body, title_error=title_error, body_error=body_error)
@@ -56,6 +56,7 @@ def validate_input():
 
 @app.route("/blog")
 def blog_home():
+    #TODO build query for database
     return render_template('home.html', blog=blog)
 
 @app.route("/post", methods=['POST'])
@@ -64,4 +65,5 @@ def post():
     body = request.form.get('body')
     return render_template('post.html', title=title, body=body)
 
-app.run()
+if __name__=='__main__':
+    app.run()

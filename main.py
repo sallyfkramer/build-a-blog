@@ -56,27 +56,25 @@ def validate_input():
 
 
 
-@app.route("/blog")
-def blog_home():
-    #TODO build query for database
-    blog = Blog.query.all()
-    return render_template('home.html', blog=blog)
-
-@app.route("/post", methods=['POST'])
+@app.route("/blog", methods=['POST'])
 def post():
     title = request.form.get('title')
     body = request.form.get('body')
     return render_template('post.html', title=title, body=body)
 
+@app.route('/blog', methods=['GET'])
+def view_post():
+    #TODO build query for database
+    blog = Blog.query.all()
+    return render_template('post.html', blog=blog)
+
+
 @app.route("/link")
 def link():
     blog = Blog.query.all()
     id = request.args.get('post.id')
-    return blog.title
-
-    
-    
-    #return render_template('link.html', blog=blog, id=id)
+       
+    return render_template('link.html', blog=blog, id=id)
 
 if __name__=='__main__':
     app.run()

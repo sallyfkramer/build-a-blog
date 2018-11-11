@@ -8,7 +8,7 @@
 <ol>
   {% for post in blog: %}
     <li>
-        <a href="/link?id={{post.id}}"><h3>{{post.title}}</h3></a>
+        <a href="/blog?id={{post.id}}"><h3>{{post.title}}</h3></a>
         <p>{{post.body}}</p>
     </li>
   {% endfor %}

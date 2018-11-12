@@ -7,10 +7,13 @@
 
 <ol>
   {% for post in blog: %}
-    <li>
+    <ul>
         <a href="/blog?id={{post.id}}"><h3>{{post.title}}</h3></a>
         <p>{{post.body}}</p>
-    </li>
+        <input name="id" value={{post.id}}
+        type="hidden"/>
+        <hr />
+    </ul>
   {% endfor %}
 </ol>
 

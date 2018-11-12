@@ -66,15 +66,16 @@ def post():
 def view_post():
     #TODO build query for database
     blog = Blog.query.all()
-    return render_template('post.html', blog=blog)
+    id_number = request.args.get('id') 
+    id = (int(id_number)) - 1
+    title = blog[id].title
+    body = blog[id].body
+    
+    
+    return render_template('post.html', id=id , title = title, body=body)
 
 
-@app.route("/link")
-def link():
-    blog = Blog.query.all()
-    id = request.args.get('post.id')
-       
-    return render_template('link.html', blog=blog, id=id)
+
 
 if __name__=='__main__':
     app.run()

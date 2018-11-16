@@ -67,9 +67,10 @@ def view_post():
     #TODO build query for database
     blog = Blog.query.all()
     id_number = request.args.get('id') 
-    id = (int(id_number)) - 1
-    title = blog[id].title
-    body = blog[id].body
+    veiw_blog = Blog.query.get(id_number)
+    
+    title = veiw_blog.title
+    body = veiw_blog.body
     
     
     return render_template('post.html', id=id , title = title, body=body)
